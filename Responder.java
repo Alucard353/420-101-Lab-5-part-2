@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Random;
 
 /**
  * The responder class represents a response generator object. It is used
@@ -14,15 +17,18 @@ public class Responder
 {
     private Random randomGenerator;
     private ArrayList<String> responses;
-
+    private HashMap<String, String> responseMap;
+    
     /**
      * Construct a Responder
      */
     public Responder()
     {
+        responseMap = new HashMap<>();
+        defaultResponses = new ArrayList<>();
+        fillResponseMap();
+        fillDefaultResponses();
         randomGenerator = new Random();
-        responses = new ArrayList<>();
-        fillResponses();
     }
 
     /**
