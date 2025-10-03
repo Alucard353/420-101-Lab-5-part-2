@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
@@ -16,8 +16,11 @@ import java.util.Random;
 public class Responder
 {
     private Random randomGenerator;
-    private ArrayList<String> responses;
+    
+    private ArrayList<String> defaultResponses;
+    
     private HashMap<String, String> responseMap;
+    
     
     /**
      * Construct a Responder
@@ -36,37 +39,131 @@ public class Responder
      * 
      * @return  A string that should be displayed as the response
      */
-    public String generateResponse()
+    public String generateResponse(HashSet<String> words)
     {
-        // Pick a random number for the index in the default response 
-        // list. The number will be between 0 (inclusive) and the size
-        // of the list (exclusive).
-        int index = randomGenerator.nextInt(responses.size());
-        return responses.get(index);
+       for (String word : words) {
+           String response = responseMap.get(word);
+           if(response != null) {
+               return response;
+           }
+       }
+       return pickDefaultResponse();
     }
 
+    /**
+     * Enter all the known keywords and their associated responses
+     * into our response map.
+     */
+    private void fillResponseMap()
+    {
+        responseMap.put("crash", 
+                        """
+                        Well, it never crashes on our system. It must have something
+                        to do with your system. Tell me more about your configuration.
+                        """);
+        responseMap.put("crashes", 
+                        """
+                        Well, it never crashes on our system. It must have something
+                        "to do with your system. Tell me more about your configuration.
+                        """);
+        responseMap.put("slow", 
+                        """
+                        I think this has to do with your hardware. Upgrading your processor
+                        should solve all performance problems. Have you got a problem with
+                        our software?
+                        """);
+        responseMap.put("performance", 
+                        """
+                        Performance was quite adequate in all our tests. Are you running
+                        any other processes in the background?
+                        """);
+        responseMap.put("bug", 
+                        """
+                        Well, you know, all software has some bugs. But our software engineers
+                        are working very hard to fix them. Can you describe the problem a bit
+                        further?
+                        """);
+        responseMap.put("buggy", 
+                        """
+                        Well, you know, all software has some bugs. But our software engineers
+                        "are working very hard to fix them. Can you describe the problem a bit
+                        further?
+                        """);
+        responseMap.put("windows", 
+                        """
+                        This is a known bug to do with the Windows operating system. Please
+                        report it to Microsoft. There is nothing we can do about this.
+                        """);
+        responseMap.put("mac", 
+                        """
+                        This is a known bug to do with the Mac operating system. Please
+                        report it to Apple. There is nothing we can do about this.
+                        """);
+        responseMap.put("expensive", 
+                        """
+                        The cost of our product is quite competitive. Have you looked around
+                        and really compared our features?
+                        """);
+        responseMap.put("installation", 
+                        """
+                        The installation is really quite straight forward. We have tons of
+                        "wizards that do all the work for you. Have you read the installation
+                        instructions?
+                        """);
+        responseMap.put("memory", 
+                        """
+                        If you read the system requirements carefully, you will see that the
+                        specified memory requirements are 1.5 giga byte. You really should
+                        upgrade your memory. Anything else you want to know?
+                        """);
+        responseMap.put("linux", 
+                        """
+                        We take Linux support very seriously. But there are some problems.
+                        Most have to do with incompatible glibc versions. Can you be a bit
+                        more precise?
+                        """);
+        responseMap.put("bluej", 
+                        """
+                        Ahhh, BlueJ, yes. We tried to buy out those guys long ago, but
+                        they simply won't sell... Stubborn people they are. Nothing we can
+                        do about it, I'm afraid.
+                        """);
+    }
+    
     /**
      * Build up a list of default responses from which we can pick one
      * if we don't know what else to say.
      */
-    private void fillResponses()
+    private void fillDefaultResponses()
     {
-        responses.add("That sounds odd. Could you describe this in more detail?");
-        responses.add("""
-                      No other customer has ever complained about this before.
-                      What is your system configuration?
-                      """);
-        responses.add("I need a bit more information on that.");
-        responses.add("Have you checked that you do not have a dll conflict?");
-        responses.add("That is covered in the manual. Have you read the manual?");
-        responses.add("""
-                      Your description is a bit wishy-washy. Have you got an expert
-                      there with you who could describe this more precisely?
-                      """);
-        responses.add("That's not a bug, it's a feature!");
-        responses.add("Could you elaborate on that?");
-        responses.add("Have you tried running the app on your phone?");
-        responses.add("I just checked StackOverflow - they don't know either.");
+        defaultResponses.add("That sounds odd. Could you describe that problem in more detail?");
+        defaultResponses.add("""
+                             No other customer has ever complained about this before.
+                             What is your system configuration?
+                             """);
+        defaultResponses.add("That sounds interesting. Tell me more...");
+        defaultResponses.add("I need a bit more information on that.");
+        defaultResponses.add("Have you checked that you do not have a dll conflict?");
+        defaultResponses.add("That is explained in the manual. Have you read the manual?");
+        defaultResponses.add("""
+                             Your description is a bit wishy-washy. Have you got an expert
+                             there with you who could describe this more precisely?
+                             """);
+        defaultResponses.add("That's not a bug, it's a feature!");
+        defaultResponses.add("Could you elaborate on that?");
     }
+    
+    /**
+     * Randomly select and return one of the default responses.
+     * @return     A random default response
+     */
+    private String pickDefaultResponse()
+    {
+        // Pick a random number for the index in the default response list.
+        // The number will be between 0 (inclusive) and the size of the list (exclusive).
+        int index = randomGenerator.nextInt(defaultResponses.size());
+        return defaultResponses.get(index);
+    }
+    
 }
 
