@@ -34,4 +34,8 @@ Q29: As long as both entries have different names and different keys they won't 
 Q30: You can use the boolean method contains.key(object key)
 Q31: It would be returned as  null
 Q32: With the use of the keyset() method.
+Q34: Some similiraties are that they both belong to Java collections framework, they can story objects of any type and they allow null elements
+Some differences are, how they order, also that Hashset does not allow duplicates while Arraylist does.
+Q35: HashSet ha no guarantee order, also it contains only unique elements, while a ArrayList preserves the order and it can also include duplicates
+Q36: Yes extra spaces can cause errors with strings being empty
 

@@ -20,8 +20,9 @@ public class Responder
     private ArrayList<String> defaultResponses;
     
     private HashMap<String, String> responseMap;
-    
-    
+    private Random generator;
+    private ArrayList<String> responses;
+
     /**
      * Construct a Responder
      */
@@ -31,7 +32,8 @@ public class Responder
         defaultResponses = new ArrayList<>();
         fillResponseMap();
         fillDefaultResponses();
-        randomGenerator = new Random();
+        generator = new Random();
+        responses = new ArrayList<>();
     }
 
     /**
@@ -47,7 +49,7 @@ public class Responder
                return response;
            }
        }
-       return pickDefaultResponse();
+       return responses.get(generator,nextInt(responses.size()));
     }
 
     /**
