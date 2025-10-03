@@ -29,3 +29,8 @@ Q24: This implementation provides all of the optional map operations, and permit
 Q25: K and V are the parameters, K = key, V = value
 Some important methods are put(k key, v value) and get (object key). Yes I do think it could be used for both it's parameters.
 Q26: The method size() will return the amount of entries
+Q28: If I add "A", "1", and "A", "2" then 2 will just overwrite the 1
+Q29: As long as both entries have different names and different keys they won't collide in any way shape or form.
+Q30: You can use the boolean method contains.key(object key)
+Q31: I t would be returned as  null
+Q32: 
